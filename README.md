@@ -2,7 +2,7 @@
 
 ![OpenDrive Logo](https://placehold.co/600x300/7c3aed/ffffff?text=OpenDrive)
 
-**A native, open-source, and privacy-respecting Google Drive client for Linux, built with Rust.**
+**A native, open-source, and privacy-respecting Google Drive client for Linux, built with C++.**
 
 OpenDrive provides seamless, reliable, and resource-efficient file synchronization between your local Linux filesystem and Google Drive. It runs as a background service, integrates with your desktop environment, and aims to provide an experience on par with official clients on other platforms.
 
@@ -56,9 +56,10 @@ Once released, OpenDrive will be available via:
 ### Building from Source
 
 **Prerequisites:**
-- Rust and Cargo (latest stable version). Update with; curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-- `libdbus-1-dev`, `pkg-config`, and `libssl-dev` (for Debian/Ubuntu)
-- A C compiler (e.g., `build-essential`)
+- A C++ compiler (e.g., `g++` or `clang++`)
+- `cmake` (for building)
+- `make` or `ninja` (for building)
+- Development libraries for `dbus`, `openssl`, `sqlite3`, and `GTK` (e.g., `libdbus-1-dev`, `libssl-dev`, `libsqlite3-dev`, `libgtk-3-dev` for Debian/Ubuntu)
 
 **Steps:**
 1.  **Clone the repository:**
@@ -66,12 +67,16 @@ Once released, OpenDrive will be available via:
     git clone [https://github.com/your-repo/opendrive.git](https://github.com/your-repo/opendrive.git)
     cd opendrive
     ```
-2.  **Build the project:**
+2.  **Configure the build:**
     ```bash
-    cargo build --release
+    cmake -B build
     ```
-3.  **Run the application:**
-    The binary will be located at `target/release/opendrive`.
+3.  **Build the project:**
+    ```bash
+    cmake --build build --config Release
+    ```
+4.  **Run the application:**
+    The binary will be located at `build/opendrive` (or `build/Release/opendrive` on some systems).
 
 ## Codebase Map
 
@@ -79,13 +84,13 @@ The project is organized into several key components, located in the `src/` dire
 
 | Path                     | Description                                                                                              |
 | ------------------------ | -------------------------------------------------------------------------------------------------------- |
-| `src/main.rs`            | Application entry point. Handles startup, initializes the GUI or CLI.                                    |
+| `src/main.cpp`           | Application entry point. Handles startup, initializes the GUI or CLI.                                    |
 | `src/daemon/`            | The core sync engine. A headless background process that handles all logic.                              |
-| `src/daemon/auth.rs`     | Handles the OAuth 2.0 flow for Google Account authentication.                                            |
-| `src/daemon/sync.rs`     | Contains the main synchronization logic (file watching, conflict resolution, upload/download).           |
-| `src/daemon/db.rs`       | Manages the local SQLite database for metadata storage.                                                  |
-| `src/ipc/`               | Inter-Process Communication (D-Bus) logic for connecting the GUI/CLI to the daemon.                        |
-| `src/gui/`               | The GTK-based graphical user interface for settings and status.                                          |
+| `src/daemon/auth/`       | Handles the OAuth 2.0 flow for Google Account authentication (e.g., using `libcurl` and a web server for callback). |
+| `src/daemon/sync/`       | Contains the main synchronization logic (file watching, conflict resolution, upload/download).           |
+| `src/daemon/db/`         | Manages the local SQLite database for metadata storage (e.g., using `sqlite3` library).                  |
+| `src/ipc/`               | Inter-Process Communication (D-Bus) logic for connecting the GUI/CLI to the daemon (e.g., using `dbus-c++` or `sdbus-c++`). |
+| `src/gui/`               | The GTK-based graphical user interface for settings and status (e.g., using `GTKmm`).                  |
 | `src/cli/`               | The command-line interface.                                                                              |
 | `src/common/`            | Shared data structures and utilities used across the entire application.                                 |
 | `docs/`                  | Contains high-level project documentation like the software blueprint and architecture diagrams.         |

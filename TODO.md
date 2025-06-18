@@ -10,21 +10,21 @@ This phase focuses on delivering a Minimum Viable Product that fulfills the core
 
     [ ] Set up Git repository and CONTRIBUTING.md guidelines.
 
-    [ ] Choose and implement a logging strategy (env_logger, tracing).
+    [ ] Choose and implement a logging strategy (e.g., spdlog or custom logging).
 
-    [ ] Set up basic CI/CD pipeline for automated builds and testing on GitHub Actions.
+    [ ] Set up basic CI/CD pipeline for automated builds and testing on GitHub Actions (using CMake and CTest).
 
 1.2. Core Sync Daemon
 
     [ ] Authentication:
 
-        [ ] Implement the OAuth 2.0 flow to securely obtain user credentials.
+        [ ] Implement the OAuth 2.0 flow to securely obtain user credentials (e.g., using libcurl for HTTP requests and a local web server for callback).
 
-        [ ] Implement secure storage for refresh tokens (using secret-service crate).
+        [ ] Implement secure storage for refresh tokens (using system's keyring/secret service via libsecret or similar).
 
     [ ] API Client:
 
-        [ ] Create a robust client for interacting with the Google Drive v3 API.
+        [ ] Create a robust C++ client for interacting with the Google Drive v3 API (e.g., using libcurl for HTTP, nlohmann/json for JSON parsing).
 
         [ ] Implement files.list for initial file discovery.
 
@@ -36,7 +36,7 @@ This phase focuses on delivering a Minimum Viable Product that fulfills the core
 
         [ ] Design the SQLite database schema (file mappings, versions, etc.).
 
-        [ ] Implement rusqlite logic for database creation and access.
+        [ ] Implement C++ logic for database creation and access (e.g., using sqlite3 C API or a C++ wrapper like SQLiteCpp).
 
     [ ] Initial Sync Logic:
 
@@ -46,11 +46,11 @@ This phase focuses on delivering a Minimum Viable Product that fulfills the core
 
     [ ] Continuous Sync Logic:
 
-        [ ] Implement a file system watcher using the notify crate to detect local changes.
+        [ ] Implement a file system watcher using inotify (Linux-specific) or a cross-platform library (e.g., boost::asio with filesystem monitors, if available) to detect local changes.
 
         [ ] Implement handling for local create, modify, and delete events.
 
-        [ ] Set up Google Drive Push Notifications to receive remote changes.
+        [ ] Set up Google Drive Push Notifications to receive remote changes (requires a public-facing endpoint and secure channel).
 
         [ ] Implement logic to process remote changes from the changes.list API.
 
@@ -64,13 +64,13 @@ This phase focuses on delivering a Minimum Viable Product that fulfills the core
 
         [ ] Define the D-Bus service interface (.xml file).
 
-        [ ] Implement the D-Bus server in the daemon using zbus.
+        [ ] Implement the D-Bus server in the daemon (e.g., using dbus-c++ or sdbus-c++).
 
         [ ] Implement D-Bus clients for the GUI and CLI.
 
     [ ] GUI (MVP):
 
-        [ ] Create an initial setup wizard for authentication and folder selection.
+        [ ] Create an initial setup wizard for authentication and folder selection (e.g., using GTKmm or Qt).
 
         [ ] Create a basic settings window to show account info and sync status.
 
@@ -80,7 +80,7 @@ This phase focuses on delivering a Minimum Viable Product that fulfills the core
 
     [ ] File Manager Integration:
 
-        [ ] Create a script/instructions for adding a "View on Google Drive" context menu item.
+        [ ] Create a script/instructions for adding a "View on Google Drive" context menu item (e.g., via Nautilus-python or custom scripts for other file managers).
 
 Phase 2: Advanced Features (Post-1.0)
 
@@ -88,7 +88,7 @@ This phase focuses on building features that enhance the user experience and cat
 
     [ ] On-Demand Sync (Smart Sync):
 
-        [ ] Research and implement a FUSE driver using the fuser crate.
+        [ ] Research and implement a FUSE driver (e.g., using libfuse C API).
 
         [ ] Integrate the FUSE filesystem with the sync daemon.
 

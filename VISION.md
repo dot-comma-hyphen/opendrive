@@ -5,7 +5,7 @@ This document outlines the high-level vision, target audience, and guiding princ
 
 To create the definitive, "set it and forget it" Google Drive client for the Linux desktop.
 
-Our vision is to provide Linux users with a native, reliable, and resource-efficient file synchronization tool that feels like a first-party application. It should be powerful enough for technical users who demand fine-grained control, yet simple and intuitive for newcomers who just want their files to be available everywhere. We are building the tool we wish we had: one that respects user privacy, integrates seamlessly with the open-source ecosystem, and is built on a foundation of modern, secure technology (Rust).
+Our vision is to provide Linux users with a native, reliable, and resource-efficient file synchronization tool that feels like a first-party application. It should be powerful enough for technical users who demand fine-grained control, yet simple and intuitive for newcomers who just want their files to be available everywhere. We are building the tool we wish we had: one that respects user privacy, integrates seamlessly with the open-source ecosystem, and is built on a foundation of modern, secure technology (C++).
 2. Target Audience
 
 We are building this for two primary groups of users within the Linux community.
